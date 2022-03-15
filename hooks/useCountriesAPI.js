@@ -7,6 +7,9 @@ const useCountriesAPI = () => {
 
   const { data, error } = useSWR(url, fetcher)
 
+  // Break data into smaller chunks of 25 countries (Implement Pagination Later)
+  // const countries = Array.from({ length: Math.ceil(data.length/25)}, (_, i) => data.slice(i*25, i*25+25))
+
   return {
     countries: data,
     isLoading: !error && !data,
