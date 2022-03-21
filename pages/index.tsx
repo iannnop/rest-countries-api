@@ -14,6 +14,14 @@ const Home: NextPage = () => {
   const [page, setPage] = useState(0)
   
   const { countries, isLoading, isError } = useCountriesAPI()
+
+  const filterFunction = ({ name, region }: Country) => {
+    const inRegion = filterRegion ? filterRegion === region.toLowerCase() : true
+    const filterSearch = query ? name.common.toLowerCase().includes(query.toLowerCase()) : true
+
+    return inRegion && filterSearch
+  }
+
   console.log(countries)
 
   return (
@@ -37,7 +45,7 @@ const Home: NextPage = () => {
             <option value="" disabled hidden>Filter by Region</option>
             <option value="">No Filter</option>
             <option value="africa">Africa</option>
-            <option value="america">America</option>
+            <option value="americas">America</option>
             <option value="asia">Asia</option>
             <option value="europe">Europe</option>
             <option value="oceania">Oceania</option>
@@ -45,8 +53,8 @@ const Home: NextPage = () => {
         </div>
 
         {/* CountryCard Grid */}
-        <div className='grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20'>
-          {countries && countries.map((country: Country) => <CountryCard key={country.name.official} country={country}/>)}
+        <div className='grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16'>
+          {countries && countries.filter(filterFunction).map((country: Country) => <CountryCard key={country.name.official} country={country}/>)}
         </div>
       </main>
     </div>
