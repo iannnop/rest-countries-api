@@ -1,16 +1,25 @@
 import Image from "next/image"
+import { Country } from "../types"
 
-const CountryCard = () => {
+interface CountryCardProps {
+  country: Country
+}
+
+const CountryCard = ({ country }: CountryCardProps) => {
+  const { name, population, region, capital, flags } = country
+  
   return (
-    <div>
-      <div className="bg-slate-700 w-[264px] h-[160px]" />
-      <div>
-        <h2>Germany</h2>
+    <div className="bg-white dark:bg-dark-element-bg rounded-lg shadow-lg">
+      <div className="relative w-[264px] h-[160px]">
+        <Image className="rounded-t-lg" layout="fill" objectFit="cover" src={flags.svg} alt={`${name.common} flag`} />
+      </div>
+      <div className="m-6">
+        <h2 className="font-bold">{name.common}</h2>
         <div>
           <p>
-            Population: 811111 <br />
-            Region: Europe <br />
-            Capital: Berlin
+            Population: {population} <br />
+            Region: {region} <br />
+            Capital: {capital}
           </p>
         </div>
       </div>
