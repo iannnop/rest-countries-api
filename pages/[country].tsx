@@ -1,5 +1,7 @@
 import type { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
+import useCountriesAPI from '../hooks/useCountriesAPI'
+import { Country } from '../types'
 
 const Country: NextPage = () => {
   return (
@@ -19,8 +21,25 @@ const Country: NextPage = () => {
 
 export default Country
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-// }
+export const getStaticPaths: GetStaticPaths = async () => {
+  const res = await fetch('https://restcountries.com/v3.1/all')
+  const data = await res.json()
+  const paths = data.map((country: Country) => ({ params: { country: country.name.common } }));
 
-// export const getStaticProps: GetStaticProps = async () => {
-// }
+  return {
+    paths,
+    fallback: "blocking",
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const res = await fetch(`https://restcountries.com/v3.1/name/${params?.country}?fullText=true`)
+  const data = await res.json()
+
+  return {
+    props: {
+      country: data[0]
+    }
+  }
+
+}
