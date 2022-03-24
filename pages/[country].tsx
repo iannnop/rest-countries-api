@@ -1,6 +1,5 @@
 import type { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
-import useCountriesAPI from '../hooks/useCountriesAPI'
 import { Country } from '../types'
 
 const Country: NextPage = () => {
@@ -35,10 +34,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const res = await fetch(`https://restcountries.com/v3.1/name/${params?.country}?fullText=true`)
   const data = await res.json()
+  const country = data[0]
 
   return {
     props: {
-      country: data[0]
+      country
     }
   }
 
