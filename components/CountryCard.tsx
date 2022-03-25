@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { Country } from "../types"
 
 interface CountryCardProps {
@@ -6,24 +7,26 @@ interface CountryCardProps {
 }
 
 const CountryCard = ({ country }: CountryCardProps) => {
-  const { name, population, region, capital, flags } = country
+  const { name, population, region, capital, flag } = country
   
   return (
-    <div className="bg-white dark:bg-dark-element-bg rounded-lg shadow-lg">
-      <div className="">
-        <Image className="rounded-t-lg" width={264} height={160} objectFit="cover" src={flags.svg} alt={`${name.common} flag`} />
-      </div>
-      <div className="m-6">
-        <h2 className="font-bold">{name.common}</h2>
-        <div>
-          <p>
-            Population: {population.toLocaleString()} <br />
-            Region: {region} <br />
-            Capital: {capital}
-          </p>
+    <Link href={`/${name}`}>
+      <a className="overflow-hidden min-w-0 bg-white dark:bg-dark-element-bg rounded-lg shadow-lg">
+        <div className="relative w-full h-[240px]">
+          <Image className="rounded-t-lg" layout="fill" objectFit="cover" src={flag} alt={`${name} flag`} />
         </div>
-      </div>
-    </div>
+        <div className="m-6">
+          <h2 className="font-bold">{name}</h2>
+          <div>
+            <p>
+              Population: {population.toLocaleString()} <br />
+              Region: {region} <br />
+              Capital: {capital}
+            </p>
+          </div>
+        </div>
+      </a>
+    </Link>
   )
 }
 
