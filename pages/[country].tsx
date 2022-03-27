@@ -1,10 +1,12 @@
-import type { GetStaticPaths, GetStaticProps } from 'next'
+import { Country } from '../types'
+
 import Head from 'next/head'
 import Link from 'next/link'
-import { Country } from '../types'
-import { ArrowLeftIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
+import type { GetStaticPaths, GetStaticProps } from 'next'
 import { useEffect, useState } from 'react'
+
+import { ArrowLeftIcon } from '@heroicons/react/solid'
 
 interface CountryPageProps {
   country: Country
@@ -15,7 +17,7 @@ interface BorderCountryProps {
 }
 
 const CountryPage = ({ country }: CountryPageProps) => {
-  const { name, topLevelDomain, capital, subregion, region, population, borders, nativeName, flag, currencies, languages} = country
+  const { name, topLevelDomain, capital, subregion, region, latlng, population, borders, nativeName, flag, currencies, languages} = country
   const [borderCountries, setBorderCountries] = useState<Country[]>()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -45,6 +47,8 @@ const CountryPage = ({ country }: CountryPageProps) => {
             Back
           </a>
         </Link>
+
+        {/* Country Information */}
         <div className='lg:h-[400px] flex flex-col lg:flex-row lg:space-x-10 xl:space-x-40'>
           <span className='relative h-[300px] lg:h-auto lg:basis-1/2'>
             <Image layout='fill' objectFit='cover' src={flag} alt={`${name} flag`} />
@@ -77,6 +81,8 @@ const CountryPage = ({ country }: CountryPageProps) => {
             </div>
           </div>
         </div>
+
+        {/* Interactive Map */}
       </main> 
     </div>
   )
